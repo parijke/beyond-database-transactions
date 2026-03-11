@@ -15,6 +15,8 @@ echo "Relay-Worker starting...\n";
 $lastId = $checkpointRepo->getLastProcessedId('relay_worker');
 echo "Starting at outbox ID: $lastId\n";
 
+$shouldCrash = in_array('--crash', $argv);
+
 // 2. Load new events
 $events = $outboxRepo->fetchPendingEvents($lastId);
 
@@ -26,10 +28,14 @@ if (empty($events)) {
 foreach ($events as $event) {
     echo "Processing event #{$event['id']} ({$event['event_type']})...\n";
 
-    // Task:
-    // a) Send event to the broker
-    // b) Update checkpoint
-    // c) Experiment: Insert an 'exit;' between sending and checkpoint update!
+    $broker->publish($event['event_type'], json_decode($event['payload'], true));
 
-    echo "!!! IMPLEMENT HERE !!!\n";
+    if ($shouldCrash) {
+        echo "-- CRASH --- " . PHP_EOL;
+        exit(1);
+    }
+
+    $checkpointRepo->updateCheckpoint('relay_worker', $event['id']);
+    echo "Checkpoint updated to id {$event['id']}.\n";
+
 }

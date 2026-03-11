@@ -14,16 +14,11 @@ class InboxRepository
         $this->pdo = $pdo;
     }
 
-    /**
-     * Versucht eine Message ID in die Inbox zu schreiben.
-     * Gibt true zurück, wenn es erfolgreich war (Nachricht neu).
-     * Gibt false zurück, wenn die ID bereits existiert (Duplikat).
-     */
-    public function registerMessage(string $messageId): bool
+    public function registerMessage(string $orderId): bool
     {
         try {
             $stmt = $this->pdo->prepare("INSERT INTO inbox (message_id) VALUES (?)");
-            $stmt->execute([$messageId]);
+            $stmt->execute([$orderId]);
             return true;
         } catch (PDOException $e) {
             // Check if it's a unique constraint violation (SQLITE_CONSTRAINT)
