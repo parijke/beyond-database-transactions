@@ -9,9 +9,11 @@ spl_autoload_register(
             $classes = array(
                 'app\\emailservice' => '/EmailService.php',
                 'app\\orderservice' => '/OrderService.php',
+                'app\\pdoorderservice' => '/PdoOrderService.php',
                 'app\\servicefactory' => '/ServiceFactory.php',
                 'app\\statusprinter' => '/StatusPrinter.php',
-                'app\\stockservice' => '/StockService.php'
+                'app\\stockservice' => '/StockService.php',
+                'app\\weborderservice' => '/WebOrderService.php'
             );
         }
         $cn = strtolower($class);

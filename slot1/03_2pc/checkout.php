@@ -16,18 +16,18 @@ echo "Starting 2PC Checkout...\n";
 
 /**
  * TASK:
- * 1. Implement a prepare() and commit() method in both StockService and OrderService.
+ * 1. Implement a prepare() and commit() method in both StockService and PdoOrderService.
  * 2. Use these methods here to build a secure checkout.
  */
 
 try {
     // PHASE 1: Prepare
-    // $stock->prepare($sku);
-    // $order->prepare($sku);
+    $stock->prepare($sku);
+    $order->prepare($sku);
 
     // PHASE 2: Commit
-    // $stock->commit();
-    // $order->commit();
+    $stock->commit();
+    $order->commit();
 
     echo "Success: 2PC Checkout completed.\n";
 

@@ -12,7 +12,7 @@ class ServiceFactory {
     }
 
     public function createOrderService(): OrderService {
-        return new OrderService($this->createPDO(__DIR__ . '/../order.db'));
+        return new PdoOrderService($this->createPDO(__DIR__ . '/../order.db'));
     }
 
     public function createEmailService(): EmailService {

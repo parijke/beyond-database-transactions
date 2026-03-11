@@ -20,7 +20,7 @@ try {
     echo "[Stock] Reservation successful.\n";
 
     // --- HERE: Simulate an error (e.g. throw new Exception() or exit) ---
-    // throw new Exception("Network error while calling OrderService!");
+    throw new Exception("Network error while calling PdoOrderService!");
 
     // 2. Create order
     $order->createOrder($sku);
