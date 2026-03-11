@@ -4,6 +4,7 @@ namespace App;
 
 use PDO;
 use Exception;
+use function json_encode;
 
 class OrderService
 {
@@ -25,6 +26,10 @@ class OrderService
             $stmt = $this->pdo->prepare("INSERT INTO orders (item_id, status) VALUES (?, 'CONFIRMED')");
             $stmt->execute([$itemId]);
             $orderId = (int)$this->pdo->lastInsertId();
+
+            $stmt = $this->pdo->prepare("INSERT INTO outbox (event_type, payload) VALUES (?, ?)");
+            $payload = json_encode(['order_id' => $orderId, 'item_id' => $itemId]);
+            $stmt->execute(['OrderPlaced', $payload]);
 
             $this->pdo->commit();
             return $orderId;
